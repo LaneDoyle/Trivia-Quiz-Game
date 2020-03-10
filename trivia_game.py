@@ -10,6 +10,7 @@ import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 import random as rd
 
+#Constants
 TITLE_FONT = ("Times New Roman", 24)
 WIDGET_FONT = ("Arial", 15)
 FRMBACKGROUND = "RoyalBlue1"
@@ -23,14 +24,20 @@ class MainMenu(tk.Frame):
         self.lbl_title.grid(row = 0, column = 0, sticky = "news")
         
         self.btn_start = tk.Button(self, text = "Start", font = WIDGET_FONT,
-                                 command = "", bg = BTNBACKGROUNDSTATIC, 
+                                 command = self.raise_question, bg = BTNBACKGROUNDSTATIC, 
                                  activebackground = BTNBACKGROUNDACTIVE)
         self.btn_start.grid(row = 1, column = 0)
         
         self.btn_scores = tk.Button(self, text = "High Scores", font = WIDGET_FONT,
-                                  command = "", bg = BTNBACKGROUNDSTATIC, 
+                                  command = self.raise_highscores, bg = BTNBACKGROUNDSTATIC, 
                                  activebackground = BTNBACKGROUNDACTIVE)
         self.btn_scores.grid(row = 2, column = 0)
+        
+    def raise_question(self):
+        question.tkraise()
+        
+    def raise_highscores(self):
+        highscores.tkraise()
         
 class Question(tk.Frame):
     def __init__(self):
@@ -41,16 +48,16 @@ class Question(tk.Frame):
         self.lbl_question = tk.Label(self, text = "When was the \n war of 1812?", font = TITLE_FONT, bg = FRMBACKGROUND)
         self.lbl_question.grid(row = 1, column = 0, columnspan = 2, sticky = "news")
         
-        rad_answer1 = tk.Radiobutton(self, text = "1776", bg = BTNBACKGROUNDSTATIC)
+        rad_answer1 = tk.Radiobutton(self, text = "1776", bg = FRMBACKGROUND, fg = "white")
         rad_answer1.grid(row = 2, column = 0)
         
-        rad_answer2 = tk.Radiobutton(self, text = "1790", bg = BTNBACKGROUNDSTATIC)
+        rad_answer2 = tk.Radiobutton(self, text = "1790", bg = FRMBACKGROUND, fg = "white")
         rad_answer2.grid(row = 2, column = 1)        
         
-        rad_answer3 = tk.Radiobutton(self, text = "1810", bg = BTNBACKGROUNDSTATIC)
+        rad_answer3 = tk.Radiobutton(self, text = "1810", bg = FRMBACKGROUND, fg = "white")
         rad_answer3.grid(row = 3, column = 0)
         
-        rad_answer4 = tk.Radiobutton(self, text = "1812", bg = BTNBACKGROUNDSTATIC)
+        rad_answer4 = tk.Radiobutton(self, text = "1812", bg = FRMBACKGROUND, fg = "white")
         rad_answer4.grid(row = 3, column = 1)
         
         self.btn_ok = tk.Button(self, text = "Ok", font = WIDGET_FONT,
@@ -66,35 +73,65 @@ class HighScores(tk.Frame):
         self.lbl_title.grid(row = 0, column = 0, sticky = "news")
         
         self.btn_history = tk.Button(self, text = "History", font = WIDGET_FONT,
-                                 command = self.raise_scores, bg = BTNBACKGROUNDSTATIC, 
+                                 command = self.raise_history, bg = BTNBACKGROUNDSTATIC, 
                                  activebackground = BTNBACKGROUNDACTIVE)
         self.btn_history.grid(row = 1, column = 0)
         
         self.btn_geography = tk.Button(self, text = "Geography", font = WIDGET_FONT,
-                                  command = "", bg = BTNBACKGROUNDSTATIC, 
+                                  command = self.raise_geography, bg = BTNBACKGROUNDSTATIC, 
                                  activebackground = BTNBACKGROUNDACTIVE)
         self.btn_geography.grid(row = 2, column = 0)
         
         self.btn_music = tk.Button(self, text = "Music", font = WIDGET_FONT,
-                                    command = "", bg = BTNBACKGROUNDSTATIC, 
+                                    command = self.raise_music, bg = BTNBACKGROUNDSTATIC, 
                                  activebackground = BTNBACKGROUNDACTIVE)
         self.btn_music.grid(row = 3, column = 0)
     
         self.btn_games = tk.Button(self, text = "Games", font = WIDGET_FONT,
-                                    command = "", bg = BTNBACKGROUNDSTATIC, 
+                                    command = self.raise_games, bg = BTNBACKGROUNDSTATIC, 
                                  activebackground = BTNBACKGROUNDACTIVE)
         self.btn_games.grid(row = 4, column = 0)
         
         self.btn_random = tk.Button(self, text = "Random", font = WIDGET_FONT,
                                   command = "", bg = BTNBACKGROUNDSTATIC, 
                                  activebackground = BTNBACKGROUNDACTIVE)
-        self.btn_random.grid(row = 5, column = 0)    
+        self.btn_random.grid(row = 5, column = 0)
         
-    def raise_scores(self):
+        self.btn_back = tk.Button(self, text = "Back", font = WIDGET_FONT,
+                                  command = self.raise_main, bg = BTNBACKGROUNDSTATIC, 
+                                 activebackground = BTNBACKGROUNDACTIVE)
+        self.btn_back.grid(row = 6, column = 0)         
+        
+    def raise_history(self):
         popup = tk.Tk()
         popup.title("High Scores")
-        frm_error = PopUp(popup)
+        msg = "History"
+        frm_error = PopUp(popup, msg)
         frm_error.grid(row = 0, column = 0)
+        
+    def raise_geography(self):
+        popup = tk.Tk()
+        popup.title("High Scores")
+        msg = "Geography"
+        frm_error = PopUp(popup, msg)
+        frm_error.grid(row = 0, column = 0) 
+    
+    def raise_music(self):
+        popup = tk.Tk()
+        popup.title("High Scores")
+        msg = "Music"
+        frm_error = PopUp(popup, msg)
+        frm_error.grid(row = 0, column = 0)
+    
+    def raise_games(self):
+        popup = tk.Tk()
+        popup.title("High Scores")
+        msg = "Games"
+        frm_error = PopUp(popup, msg)
+        frm_error.grid(row = 0, column = 0)     
+        
+    def raise_main(self):
+        mainmenu.tkraise()
     
 class PopUp(tk.Frame):
     def __init__(self, parent, msg = "History",
@@ -141,6 +178,14 @@ class PopUp(tk.Frame):
         self.ent_fifth = tk.Entry(self, font = WIDGET_FONT)
         self.ent_fifth.grid(row = 5, column = 1)
         
+        self.btn_back = tk.Button(self, text = "Back", font = WIDGET_FONT,
+                                  command = self.raise_main, bg = BTNBACKGROUNDSTATIC, 
+                                 activebackground = BTNBACKGROUNDACTIVE)
+        self.btn_back.grid(row = 6, column = 0, columnspan = 2)
+        
+    def raise_main(self):
+        self.parent.destroy()
+        
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Trivia")
@@ -155,9 +200,9 @@ if __name__ == "__main__":
     highscores = HighScores()
     highscores.grid(row = 0, column = 0, sticky = "news")
     
-    #mainmenu.tkraise()
+    mainmenu.tkraise()
     #question.tkraise()
-    highscores.tkraise()
+    #highscores.tkraise()
     
     root.grid_columnconfigure(0, weight = 1)
     root.mainloop()     
