@@ -58,8 +58,89 @@ class Question(tk.Frame):
                                  activebackground = BTNBACKGROUNDACTIVE)
         self.btn_ok.grid(row = 4, column = 0, columnspan = 2)        
         
-   
+class HighScores(tk.Frame):
+    def __init__(self):
+        tk.Frame.__init__(self, bg = FRMBACKGROUND)
+        self.lbl_title = tk.Label(self, text = "High Scores", font = TITLE_FONT,
+                                  bg = FRMBACKGROUND)
+        self.lbl_title.grid(row = 0, column = 0, sticky = "news")
+        
+        self.btn_history = tk.Button(self, text = "History", font = WIDGET_FONT,
+                                 command = self.raise_scores, bg = BTNBACKGROUNDSTATIC, 
+                                 activebackground = BTNBACKGROUNDACTIVE)
+        self.btn_history.grid(row = 1, column = 0)
+        
+        self.btn_geography = tk.Button(self, text = "Geography", font = WIDGET_FONT,
+                                  command = "", bg = BTNBACKGROUNDSTATIC, 
+                                 activebackground = BTNBACKGROUNDACTIVE)
+        self.btn_geography.grid(row = 2, column = 0)
+        
+        self.btn_music = tk.Button(self, text = "Music", font = WIDGET_FONT,
+                                    command = "", bg = BTNBACKGROUNDSTATIC, 
+                                 activebackground = BTNBACKGROUNDACTIVE)
+        self.btn_music.grid(row = 3, column = 0)
     
+        self.btn_games = tk.Button(self, text = "Games", font = WIDGET_FONT,
+                                    command = "", bg = BTNBACKGROUNDSTATIC, 
+                                 activebackground = BTNBACKGROUNDACTIVE)
+        self.btn_games.grid(row = 4, column = 0)
+        
+        self.btn_random = tk.Button(self, text = "Random", font = WIDGET_FONT,
+                                  command = "", bg = BTNBACKGROUNDSTATIC, 
+                                 activebackground = BTNBACKGROUNDACTIVE)
+        self.btn_random.grid(row = 5, column = 0)    
+        
+    def raise_scores(self):
+        popup = tk.Tk()
+        popup.title("High Scores")
+        frm_error = PopUp(popup)
+        frm_error.grid(row = 0, column = 0)
+    
+class PopUp(tk.Frame):
+    def __init__(self, parent, msg = "History",
+                 first_place = "Christian", second_place = "Dominic", third_place = "Gentry",
+                 fourth_place = "Kendal", fifth_place = "Chris"):
+        tk.Frame.__init__(self, master = parent, bg = FRMBACKGROUND)
+        self.parent = parent
+        
+        self.lbl_title = tk.Label(self, text = msg, font = TITLE_FONT,
+                                  bg = FRMBACKGROUND)
+        self.lbl_title.grid(row = 0, column = 0, columnspan = 2)
+        
+        self.lbl_first = tk.Label(self, text = "1st", font = TITLE_FONT,
+                                  bg = BTNBACKGROUNDSTATIC, activebackground = BTNBACKGROUNDACTIVE)
+        self.lbl_first.grid(row = 1, column = 0)
+        
+        self.ent_first = tk.Entry(self, font = WIDGET_FONT)
+        self.ent_first.grid(row = 1, column = 1)
+        
+        self.lbl_second = tk.Label(self, text = "2nd", font = TITLE_FONT,
+                                   bg = BTNBACKGROUNDSTATIC, activebackground = BTNBACKGROUNDACTIVE)
+        self.lbl_second.grid(row = 2, column = 0)
+        
+        self.ent_second = tk.Entry(self, font = WIDGET_FONT)
+        self.ent_second.grid(row = 2, column = 1)
+        
+        self.lbl_third = tk.Label(self, text = "3rd", font = TITLE_FONT,
+                                  bg = BTNBACKGROUNDSTATIC, activebackground = BTNBACKGROUNDACTIVE)
+        self.lbl_third.grid(row = 3, column = 0)
+        
+        self.ent_third = tk.Entry(self, font = WIDGET_FONT)
+        self.ent_third.grid(row = 3, column = 1)
+        
+        self.lbl_fourth = tk.Label(self, text = "4th", font = TITLE_FONT,
+                                   bg = BTNBACKGROUNDSTATIC, activebackground = BTNBACKGROUNDACTIVE)
+        self.lbl_fourth.grid(row = 4, column = 0)
+        
+        self.ent_fourth = tk.Entry(self, font = WIDGET_FONT)
+        self.ent_fourth.grid(row = 4, column = 1)
+        
+        self.lbl_fifth = tk.Label(self, text = "5th", font = TITLE_FONT,
+                                  bg = BTNBACKGROUNDSTATIC, activebackground = BTNBACKGROUNDACTIVE)
+        self.lbl_fifth.grid(row = 5, column = 0)
+        
+        self.ent_fifth = tk.Entry(self, font = WIDGET_FONT)
+        self.ent_fifth.grid(row = 5, column = 1)
         
 if __name__ == "__main__":
     root = tk.Tk()
@@ -72,8 +153,12 @@ if __name__ == "__main__":
     question = Question()
     question.grid(row = 0, column = 0, sticky = "news")
     
+    highscores = HighScores()
+    highscores.grid(row = 0, column = 0, sticky = "news")
+    
     #mainmenu.tkraise()
-    question.tkraise()
+    #question.tkraise()
+    highscores.tkraise()
     
     root.grid_columnconfigure(0, weight = 1)
     root.mainloop()     
