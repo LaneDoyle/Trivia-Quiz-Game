@@ -103,40 +103,39 @@ class PopUp(tk.Frame):
         tk.Frame.__init__(self, master = parent, bg = FRMBACKGROUND)
         self.parent = parent
         
-        self.lbl_title = tk.Label(self, text = msg, font = TITLE_FONT,
-                                  bg = FRMBACKGROUND)
+        self.lbl_title = tk.Label(self, text = msg, font = TITLE_FONT, bg = FRMBACKGROUND)
         self.lbl_title.grid(row = 0, column = 0, columnspan = 2)
         
         self.lbl_first = tk.Label(self, text = "1st", font = TITLE_FONT,
-                                  bg = BTNBACKGROUNDSTATIC, activebackground = BTNBACKGROUNDACTIVE)
+                                  bg = FRMBACKGROUND)
         self.lbl_first.grid(row = 1, column = 0)
         
         self.ent_first = tk.Entry(self, font = WIDGET_FONT)
         self.ent_first.grid(row = 1, column = 1)
         
         self.lbl_second = tk.Label(self, text = "2nd", font = TITLE_FONT,
-                                   bg = BTNBACKGROUNDSTATIC, activebackground = BTNBACKGROUNDACTIVE)
+                                   bg = FRMBACKGROUND)
         self.lbl_second.grid(row = 2, column = 0)
         
         self.ent_second = tk.Entry(self, font = WIDGET_FONT)
         self.ent_second.grid(row = 2, column = 1)
         
         self.lbl_third = tk.Label(self, text = "3rd", font = TITLE_FONT,
-                                  bg = BTNBACKGROUNDSTATIC, activebackground = BTNBACKGROUNDACTIVE)
+                                  bg = FRMBACKGROUND)
         self.lbl_third.grid(row = 3, column = 0)
         
         self.ent_third = tk.Entry(self, font = WIDGET_FONT)
         self.ent_third.grid(row = 3, column = 1)
         
         self.lbl_fourth = tk.Label(self, text = "4th", font = TITLE_FONT,
-                                   bg = BTNBACKGROUNDSTATIC, activebackground = BTNBACKGROUNDACTIVE)
+                                   bg = FRMBACKGROUND)
         self.lbl_fourth.grid(row = 4, column = 0)
         
         self.ent_fourth = tk.Entry(self, font = WIDGET_FONT)
         self.ent_fourth.grid(row = 4, column = 1)
         
         self.lbl_fifth = tk.Label(self, text = "5th", font = TITLE_FONT,
-                                  bg = BTNBACKGROUNDSTATIC, activebackground = BTNBACKGROUNDACTIVE)
+                                  bg = FRMBACKGROUND)
         self.lbl_fifth.grid(row = 5, column = 0)
         
         self.ent_fifth = tk.Entry(self, font = WIDGET_FONT)
