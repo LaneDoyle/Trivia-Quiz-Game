@@ -6,7 +6,9 @@ import pickle
 
 '''Program to reset the dictionary'''
 
-questions = {1: ["When was the war of 1812?",
+questions = {0: ["Question",
+                 "Answer 1", "Answer 2", "Answer 3", "Answer 4"],
+             1: ["When was the war of 1812?",
                  "1812", "1776", "1790", "1810"],
              2: ["How many theses did Martin Luther" + "\n" + "nail to the church door?",
                  "95", "80", "20", "13"],

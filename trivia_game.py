@@ -17,6 +17,9 @@ FRMBACKGROUND = "RoyalBlue1"
 BTNBACKGROUNDSTATIC = "light grey"
 BTNBACKGROUNDACTIVE = "ghost white"
 
+answered_questions = []
+button_pressed = ""
+
 class MainMenu(tk.Frame):
     def __init__(self):
         tk.Frame.__init__(self, bg = FRMBACKGROUND)
@@ -44,8 +47,6 @@ class Question(tk.Frame):
         tk.Frame.__init__(self, bg = FRMBACKGROUND)
         self.tk_which_answer = tk.StringVar()
         self.correct_answer = ""
-        self.button_pressed = ""
-        self.question_count = 1
         
         self.selected_question = "Question Placeholder"
         self.answer1 = "Answer 1"
@@ -53,7 +54,7 @@ class Question(tk.Frame):
         self.answer3 = "Answer 3"
         self.answer4 = "Answer 4"
         
-        self.lbl_number = tk.Label(self, text = "Question #" + str(self.question_count), font = TITLE_FONT, bg = FRMBACKGROUND)
+        self.lbl_number = tk.Label(self, text = "Question #" + str(question_count), font = TITLE_FONT, bg = FRMBACKGROUND)
         self.lbl_number.grid(row = 0, column = 0, columnspan = 2, sticky = "news")
         
         self.lbl_question = tk.Label(self, text = self.selected_question, font = TITLE_FONT, bg = FRMBACKGROUND)
@@ -86,6 +87,7 @@ class Question(tk.Frame):
         self.btn_ok.grid(row = 4, column = 1)
         
     def update(self):
+        self.lbl_number.configure(text = "Question #" + str(question_count))
         self.lbl_question.configure(text = self.selected_question)
         self.rad_answer1.configure(text = self.answer1, value = self.answer1)
         self.rad_answer2.configure(text = self.answer2, value = self.answer2)
@@ -96,6 +98,7 @@ class Question(tk.Frame):
         frm_question_select.tkraise()
         
     def answer(self):
+        global button_pressed
         if self.correct_answer == self.tk_which_answer.get():
             popup = tk.Tk()
             popup.title("")
@@ -108,8 +111,7 @@ class Question(tk.Frame):
             msg = "That's incorrect!"
             frm_incorrect = GenericMessage(popup, msg)
             frm_incorrect.grid(row = 0, column = 0)
-        chosen_category = self.button_pressed
-        QuestionSelect.raise_question(self, chosen_category)
+        QuestionSelect.raise_question(self, option = button_pressed)
         
 class QuestionSelect(tk.Frame):
     def __init__(self):
@@ -150,40 +152,46 @@ class QuestionSelect(tk.Frame):
         self.btn_back.grid(row = 6, column = 0)
         
     def raise_question(self, option):
-        self.answered_questions = []
-        chosen_question = 1
+        global question_count
+        global answered_questions
+        
+        chosen_question = 0
+        question_count += 1
+        
         if option == "History":
-            if self.answered_questions == []:
+            if answered_questions == []:
                 chosen_question = rd.randint(1,2)
             else:
-                while chosen_question not in self.answered_questions:
+                if chosen_question == 0:
+                    chosen_question = rd.randint(1,2)
+                while questions[chosen_question][0] not in answered_questions:
                     chosen_question = rd.randint(1,2)
         elif option == "Geography":
-            if self.answered_questions == []:
+            if answered_questions == []:
                 chosen_question = rd.randint(3,4)
             else:
-                while chosen_question not in self.answered_questions:
+                while questions[chosen_question][0] not in answered_questions:
                     chosen_question = rd.randint(3,4)
         elif option == "Music":
-            if self.answered_questions == []:
+            if answered_questions == []:
                 chosen_question = rd.randint(5,6)
             else:
-                while chosen_question not in self.answered_questions:
+                while questions[chosen_question][0] not in answered_questions:
                     chosen_question = rd.randint(5,6)
         elif option == "Games":
-            if self.answered_questions == []:
+            if answered_questions == []:
                 chosen_question = rd.randint(7,8)
             else:
-                while chosen_question not in self.answered_questions:
+                while questions[chosen_question][0] not in answered_questions:
                     chosen_question = rd.randint(7,8)
         elif option == "Random":
-            if self.answered_questions == []:
+            if answered_questions == []:
                 chosen_question = rd.randint(1,8)
             else:
-                while chosen_question not in self.answered_questions:
+                while questions[chosen_question][0] not in answered_questions:
                     chosen_question = rd.randint(1,8)
         
-        self.answered_questions.append(questions[chosen_question][0])
+        answered_questions.append(questions[chosen_question][0])
         
         answers = [questions[chosen_question][1],questions[chosen_question][2],
                    questions[chosen_question][3],questions[chosen_question][4]]
@@ -203,24 +211,42 @@ class QuestionSelect(tk.Frame):
         frm_question.update()
         frm_question.tkraise()
         
+        if question_count >= 3:
+            global button_pressed
+            popup = tk.Tk()
+            popup.title("")
+            msg = "That's all folks!!!"
+            frm_incorrect = GenericMessage(popup, msg)
+            frm_incorrect.grid(row = 0, column = 0)
+            answered_questions = []
+            frm_mainmenu.tkraise()
+            button_pressed = ""
+        
+        print(answered_questions)
+        
     def history_questions(self):
-        Question.button_pressed = "History"
+        global button_pressed
+        button_pressed = "History"
         self.raise_question("History")
         
     def geography_questions(self):
-        Question.button_pressed = "Geography"
+        global button_pressed
+        button_pressed = "Geography"
         self.raise_question("Geography")
         
     def music_questions(self):
-        Question.button_pressed = "Music"
+        global button_pressed
+        button_pressed = "Music"
         self.raise_question("Music")
         
     def games_questions(self):
-        Question.button_pressed = "Games"
+        global button_pressed
+        button_pressed = "Games"
         self.raise_question("Games")
     
     def random_questions(self):
-        Question.button_pressed = "Random"
+        global button_pressed
+        button_pressed = "Random"
         self.raise_question("Random")
         
     def raise_main(self):
@@ -361,10 +387,13 @@ class GenericMessage(tk.Frame):
 
         
 if __name__ == "__main__":
+    global question_count
+    question_count = 0
+    
     questions = {}
     datafile = open("questions_lib.pickle", "rb")
     questions = pk.load(datafile)
-    datafile.close()    
+    datafile.close()
     
     root = tk.Tk()
     root.title("Trivia")
