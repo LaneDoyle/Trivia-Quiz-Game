@@ -17,6 +17,13 @@ FRMBACKGROUND = "RoyalBlue1"
 BTNBACKGROUNDSTATIC = "light grey"
 BTNBACKGROUNDACTIVE = "ghost white"
 
+#Global Variables
+history_questions = ''
+geography_questions = ''
+music_questions = ''
+games_questions = ''
+random_questions = ''
+
 class MainMenu(tk.Frame):
     def __init__(self):
         tk.Frame.__init__(self, bg = FRMBACKGROUND)
@@ -96,13 +103,24 @@ class Question(tk.Frame):
         
     def answer(self):
         if self.correct_answer == self.tk_which_answer.get():
-            print("Thats correct!")
+            popup = tk.Tk()
+            popup.title("")
+            msg = "That's correct!"
+            frm_correct = GenericMessage(popup, msg)
+            frm_correct.grid(row = 0, column = 0)
         else:
-            print("Not Right!")
+            popup = tk.Tk()
+            popup.title("")
+            msg = "That's incorrect!"
+            frm_incorrect = GenericMessage(popup, msg)
+            frm_incorrect.grid(row = 0, column = 0)
+        
+        
         
 class QuestionSelect(tk.Frame):
     def __init__(self):
         tk.Frame.__init__(self, bg = FRMBACKGROUND)
+        self.button_pressed = ""
         
         self.lbl_title = tk.Label(self, text = "Select a Mode", font = TITLE_FONT,
                                   bg = FRMBACKGROUND)
@@ -139,6 +157,7 @@ class QuestionSelect(tk.Frame):
         self.btn_back.grid(row = 6, column = 0)
         
     def raise_question(self, option):
+        self.answered_questions = []
         if option == "History":
             chosen_question = rd.randint(1,2)
         elif option == "Geography":
@@ -149,6 +168,8 @@ class QuestionSelect(tk.Frame):
             chosen_question = rd.randint(7,8)
         elif option == "Random":
             chosen_question = rd.randint(1,8)
+        
+        self.answered_questions.append(questions[chosen_question][0])
         
         answers = [questions[chosen_question][1],questions[chosen_question][2],
                    questions[chosen_question][3],questions[chosen_question][4]]
@@ -169,18 +190,23 @@ class QuestionSelect(tk.Frame):
         frm_question.tkraise()
         
     def history_questions(self):
+        self.button_pressed = "History"
         self.raise_question("History")
         
     def geography_questions(self):
+        self.button_pressed = "Geography"
         self.raise_question("Geography")
         
     def music_questions(self):
+        self.button_pressed = "Music"
         self.raise_question("Music")
         
     def games_questions(self):
+        self.button_pressed = "Games"
         self.raise_question("Games")
     
     def random_questions(self):
+        self.button_pressed = "Random"
         self.raise_question("Random")
         
     def raise_main(self):
@@ -306,6 +332,19 @@ class PopUp(tk.Frame):
         
     def raise_main(self):
         self.parent.destroy()
+        
+class GenericMessage(tk.Frame):
+    def __init__(self, parent, msg =  "generic"):
+        tk.Frame.__init__(self, master = parent)
+        self.parent = parent
+        
+        self.lbl_continue = tk.Label(self, text = msg)
+        self.lbl_continue.grid(row = 0, column = 0)
+        
+        self.btn_ok = tk.Button(self, text = "Ok", 
+                                command = self.parent.destroy)
+        self.btn_ok.grid(row = 1, column = 0)
+
         
 if __name__ == "__main__":
     questions = {}
