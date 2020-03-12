@@ -154,42 +154,47 @@ class QuestionSelect(tk.Frame):
     def raise_question(self, option):
         global question_count
         global answered_questions
-        
+        keys = questions.keys()
+        question_keys = []
+        for key in keys:
+            question_keys.append(keys)
+        print(question_keys)
+            
         chosen_question = 0
         question_count += 1
         
         if option == "History":
             if answered_questions == []:
-                chosen_question = rd.randint(1,2)
+                chosen_question = rd.choice(question_keys)
             else:
                 if chosen_question == 0:
-                    chosen_question = rd.randint(1,2)
+                    chosen_question = rd.choice(question_keys)
                 while questions[chosen_question][0] not in answered_questions:
-                    chosen_question = rd.randint(1,2)
+                    chosen_question = rd.choice(question_keys)
         elif option == "Geography":
             if answered_questions == []:
-                chosen_question = rd.randint(3,4)
+                chosen_question = rd.choice(question_keys)
             else:
                 while questions[chosen_question][0] not in answered_questions:
-                    chosen_question = rd.randint(3,4)
+                    chosen_question = rd.choice(question_keys)
         elif option == "Music":
             if answered_questions == []:
-                chosen_question = rd.randint(5,6)
+                chosen_question = rd.choice(question_keys)
             else:
                 while questions[chosen_question][0] not in answered_questions:
-                    chosen_question = rd.randint(5,6)
+                    chosen_question = rd.choice(question_keys)
         elif option == "Games":
             if answered_questions == []:
-                chosen_question = rd.randint(7,8)
+                chosen_question = rd.choice(question_keys)
             else:
                 while questions[chosen_question][0] not in answered_questions:
-                    chosen_question = rd.randint(7,8)
+                    chosen_question = rd.choice(question_keys)
         elif option == "Random":
             if answered_questions == []:
-                chosen_question = rd.randint(1,8)
+                chosen_question = rd.choice(question_keys)
             else:
                 while questions[chosen_question][0] not in answered_questions:
-                    chosen_question = rd.randint(1,8)
+                    chosen_question = rd.choice(question_keys)
         
         answered_questions.append(questions[chosen_question][0])
         
