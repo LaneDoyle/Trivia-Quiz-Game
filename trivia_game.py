@@ -17,13 +17,6 @@ FRMBACKGROUND = "RoyalBlue1"
 BTNBACKGROUNDSTATIC = "light grey"
 BTNBACKGROUNDACTIVE = "ghost white"
 
-#Global Variables
-history_questions = ''
-geography_questions = ''
-music_questions = ''
-games_questions = ''
-random_questions = ''
-
 class MainMenu(tk.Frame):
     def __init__(self):
         tk.Frame.__init__(self, bg = FRMBACKGROUND)
@@ -51,6 +44,7 @@ class Question(tk.Frame):
         tk.Frame.__init__(self, bg = FRMBACKGROUND)
         self.tk_which_answer = tk.StringVar()
         self.correct_answer = ""
+        self.button_pressed = ""
         self.question_count = 1
         
         self.selected_question = "Question Placeholder"
@@ -114,13 +108,12 @@ class Question(tk.Frame):
             msg = "That's incorrect!"
             frm_incorrect = GenericMessage(popup, msg)
             frm_incorrect.grid(row = 0, column = 0)
-        
-        
+        chosen_category = self.button_pressed
+        QuestionSelect.raise_question(self, chosen_category)
         
 class QuestionSelect(tk.Frame):
     def __init__(self):
         tk.Frame.__init__(self, bg = FRMBACKGROUND)
-        self.button_pressed = ""
         
         self.lbl_title = tk.Label(self, text = "Select a Mode", font = TITLE_FONT,
                                   bg = FRMBACKGROUND)
@@ -158,16 +151,37 @@ class QuestionSelect(tk.Frame):
         
     def raise_question(self, option):
         self.answered_questions = []
+        chosen_question = 1
         if option == "History":
-            chosen_question = rd.randint(1,2)
+            if self.answered_questions == []:
+                chosen_question = rd.randint(1,2)
+            else:
+                while chosen_question not in self.answered_questions:
+                    chosen_question = rd.randint(1,2)
         elif option == "Geography":
-            chosen_question = rd.randint(3,4)
+            if self.answered_questions == []:
+                chosen_question = rd.randint(3,4)
+            else:
+                while chosen_question not in self.answered_questions:
+                    chosen_question = rd.randint(3,4)
         elif option == "Music":
-            chosen_question = rd.randint(5,6)
+            if self.answered_questions == []:
+                chosen_question = rd.randint(5,6)
+            else:
+                while chosen_question not in self.answered_questions:
+                    chosen_question = rd.randint(5,6)
         elif option == "Games":
-            chosen_question = rd.randint(7,8)
+            if self.answered_questions == []:
+                chosen_question = rd.randint(7,8)
+            else:
+                while chosen_question not in self.answered_questions:
+                    chosen_question = rd.randint(7,8)
         elif option == "Random":
-            chosen_question = rd.randint(1,8)
+            if self.answered_questions == []:
+                chosen_question = rd.randint(1,8)
+            else:
+                while chosen_question not in self.answered_questions:
+                    chosen_question = rd.randint(1,8)
         
         self.answered_questions.append(questions[chosen_question][0])
         
@@ -190,23 +204,23 @@ class QuestionSelect(tk.Frame):
         frm_question.tkraise()
         
     def history_questions(self):
-        self.button_pressed = "History"
+        Question.button_pressed = "History"
         self.raise_question("History")
         
     def geography_questions(self):
-        self.button_pressed = "Geography"
+        Question.button_pressed = "Geography"
         self.raise_question("Geography")
         
     def music_questions(self):
-        self.button_pressed = "Music"
+        Question.button_pressed = "Music"
         self.raise_question("Music")
         
     def games_questions(self):
-        self.button_pressed = "Games"
+        Question.button_pressed = "Games"
         self.raise_question("Games")
     
     def random_questions(self):
-        self.button_pressed = "Random"
+        Question.button_pressed = "Random"
         self.raise_question("Random")
         
     def raise_main(self):
