@@ -86,7 +86,7 @@ class Question(tk.Frame):
                                 activebackground = BTNBACKGROUNDACTIVE)
         self.btn_ok.grid(row = 4, column = 1)
         
-    def update(self):
+    def update_frame(self):
         self.lbl_number.configure(text = "Question #" + str(question_count))
         self.lbl_question.configure(text = self.selected_question)
         self.rad_answer1.configure(text = self.answer1, value = self.answer1)
@@ -154,35 +154,36 @@ class QuestionSelect(tk.Frame):
     def raise_question(self, option):
         global question_count
         global answered_questions
-        keys = questions.keys()
         question_keys = []
-        for key in keys:
-            question_keys.append(keys)
-        print(question_keys)
+        question_keys = list(questions.keys())
             
         chosen_question = 0
         question_count += 1
         
         if option == "History":
             if answered_questions == []:
-                chosen_question = rd.choice(question_keys)
+                chosen_question = rd.randint(1,2)
             else:
                 if chosen_question == 0:
-                    chosen_question = rd.choice(question_keys)
+                    chosen_question = rd.randint(1,2)
                 while questions[chosen_question][0] not in answered_questions:
-                    chosen_question = rd.choice(question_keys)
+                    chosen_question = rd.randint(1,2)
         elif option == "Geography":
             if answered_questions == []:
-                chosen_question = rd.choice(question_keys)
+                chosen_question = rd.randint(3,4)
             else:
+                if chosen_question == 0:
+                    chosen_question = rd.randint(3,4)                
                 while questions[chosen_question][0] not in answered_questions:
-                    chosen_question = rd.choice(question_keys)
+                    chosen_question = rd.randint(3,4)
         elif option == "Music":
             if answered_questions == []:
-                chosen_question = rd.choice(question_keys)
+                chosen_question = rd.randint(5,6)
             else:
+                if chosen_question == 0:
+                    chosen_question = rd.randint(5,6)                
                 while questions[chosen_question][0] not in answered_questions:
-                    chosen_question = rd.choice(question_keys)
+                    chosen_question = rd.randint(5,6)
         elif option == "Games":
             if answered_questions == []:
                 chosen_question = rd.choice(question_keys)
@@ -213,7 +214,7 @@ class QuestionSelect(tk.Frame):
         frm_question.answer2 = temp_placed_answers[1]
         frm_question.answer3 = temp_placed_answers[2]
         frm_question.answer4 = temp_placed_answers[3]
-        frm_question.update()
+        frm_question.update_frame()
         frm_question.tkraise()
         
         if question_count >= 3:
